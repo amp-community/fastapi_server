@@ -1,5 +1,23 @@
 # coding: utf-8
-from sqlalchemy import ARRAY, BigInteger, Boolean, Column, Date, DateTime, Float, ForeignKey, Index, Integer, JSON, Numeric, SmallInteger, String, Table, Text, text
+from sqlalchemy import (
+    ARRAY,
+    BigInteger,
+    Boolean,
+    Column,
+    Date,
+    DateTime,
+    Float,
+    ForeignKey,
+    Index,
+    Integer,
+    JSON,
+    Numeric,
+    SmallInteger,
+    String,
+    Table,
+    Text,
+    text,
+)
 from sqlalchemy.dialects.postgresql import JSONB, UUID
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
@@ -9,13 +27,13 @@ metadata = Base.metadata
 
 
 class SequelizeMeta(Base):
-    __tablename__ = 'SequelizeMeta'
+    __tablename__ = "SequelizeMeta"
 
     name = Column(String(255), primary_key=True)
 
 
 class Account(Base):
-    __tablename__ = 'accounts'
+    __tablename__ = "accounts"
 
     id = Column(UUID, primary_key=True)
     firstName = Column(String(255))
@@ -41,9 +59,13 @@ class Account(Base):
 
 
 class AdminField(Base):
-    __tablename__ = 'admin_fields'
+    __tablename__ = "admin_fields"
 
-    id = Column(Integer, primary_key=True, server_default=text("nextval('admin_fields_id_seq'::regclass)"))
+    id = Column(
+        Integer,
+        primary_key=True,
+        server_default=text("nextval('admin_fields_id_seq'::regclass)"),
+    )
     name = Column(String(255))
     value = Column(Text)
     relatedEntityId = Column(String(255))
@@ -52,27 +74,39 @@ class AdminField(Base):
     user = Column(String(255))
     deletedAt = Column(DateTime(True))
     category = Column(String(255))
-    relatedEntity = Column(String(255), nullable=False, server_default=text("'Business'::character varying"))
+    relatedEntity = Column(
+        String(255),
+        nullable=False,
+        server_default=text("'Business'::character varying"),
+    )
 
 
 class CredentialSourceType(Base):
-    __tablename__ = 'credentialSourceType'
+    __tablename__ = "credentialSourceType"
 
-    id = Column(Integer, primary_key=True, server_default=text("nextval('\"credentialSourceType_id_seq\"'::regclass)"))
+    id = Column(
+        Integer,
+        primary_key=True,
+        server_default=text("nextval('\"credentialSourceType_id_seq\"'::regclass)"),
+    )
     name = Column(String(255), nullable=False)
     createdAt = Column(DateTime(True), nullable=False, server_default=text("now()"))
     updatedAt = Column(DateTime(True), nullable=False, server_default=text("now()"))
 
 
 class DomainEvent(Base):
-    __tablename__ = 'domain_events'
-    __table_args__ = (
-        Index('value_id_index', 'value', 'id'),
-    )
+    __tablename__ = "domain_events"
+    __table_args__ = (Index("value_id_index", "value", "id"),)
 
-    id = Column(BigInteger, primary_key=True, server_default=text("nextval('domain_events_id_seq'::regclass)"))
+    id = Column(
+        BigInteger,
+        primary_key=True,
+        server_default=text("nextval('domain_events_id_seq'::regclass)"),
+    )
     value = Column(JSONB(astext_type=Text()), nullable=False)
-    version = Column(String(255), nullable=False, server_default=text("'v1.0.0'::character varying"))
+    version = Column(
+        String(255), nullable=False, server_default=text("'v1.0.0'::character varying")
+    )
     name = Column(String(255))
     relatedEntityId = Column(String(255))
     createdAt = Column(DateTime(True), nullable=False)
@@ -80,30 +114,44 @@ class DomainEvent(Base):
 
 
 class LetterBox(Base):
-    __tablename__ = 'letter_boxes'
+    __tablename__ = "letter_boxes"
 
-    id = Column(Integer, primary_key=True, server_default=text("nextval('letter_boxes_id_seq'::regclass)"))
+    id = Column(
+        Integer,
+        primary_key=True,
+        server_default=text("nextval('letter_boxes_id_seq'::regclass)"),
+    )
     version = Column(String(255), nullable=False)
     type = Column(String(255), nullable=False)
     description = Column(JSONB(astext_type=Text()))
     createdAt = Column(DateTime(True), nullable=False, server_default=text("now()"))
     updatedAt = Column(DateTime(True), nullable=False, server_default=text("now()"))
-    status = Column(String(255), nullable=False, server_default=text("'active'::character varying"))
+    status = Column(
+        String(255), nullable=False, server_default=text("'active'::character varying")
+    )
 
 
 class LocationCategory(Base):
-    __tablename__ = 'location_categories'
+    __tablename__ = "location_categories"
 
-    id = Column(Integer, primary_key=True, server_default=text("nextval('location_categories_id_seq'::regclass)"))
+    id = Column(
+        Integer,
+        primary_key=True,
+        server_default=text("nextval('location_categories_id_seq'::regclass)"),
+    )
     name = Column(String(255), nullable=False)
     createdAt = Column(DateTime(True), nullable=False, server_default=text("now()"))
     updatedAt = Column(DateTime(True), nullable=False, server_default=text("now()"))
 
 
 class OfferingRequiredMaterial(Base):
-    __tablename__ = 'offering_required_materials'
+    __tablename__ = "offering_required_materials"
 
-    id = Column(Integer, primary_key=True, server_default=text("nextval('offering_required_materials_id_seq'::regclass)"))
+    id = Column(
+        Integer,
+        primary_key=True,
+        server_default=text("nextval('offering_required_materials_id_seq'::regclass)"),
+    )
     OfferingId = Column(UUID, nullable=False)
     name = Column(String(255), nullable=False)
     value = Column(String(255), nullable=False)
@@ -112,85 +160,117 @@ class OfferingRequiredMaterial(Base):
 
 
 class RawInfo(Base):
-    __tablename__ = 'raw_infos'
+    __tablename__ = "raw_infos"
     __table_args__ = (
-        Index('raw_infos_relatedEntityrelatedEntityId', 'relatedEntity', 'relatedEntityId'),
+        Index(
+            "raw_infos_relatedEntityrelatedEntityId", "relatedEntity", "relatedEntityId"
+        ),
     )
 
-    id = Column(Integer, primary_key=True, server_default=text("nextval('raw_infos_id_seq'::regclass)"))
+    id = Column(
+        Integer,
+        primary_key=True,
+        server_default=text("nextval('raw_infos_id_seq'::regclass)"),
+    )
     url = Column(Text)
     type = Column(Text)
     sent = Column(JSONB(astext_type=Text()))
     received = Column(JSONB(astext_type=Text()))
     createdAt = Column(DateTime(True), nullable=False, server_default=text("now()"))
     updatedAt = Column(DateTime(True), nullable=False, server_default=text("now()"))
-    relatedEntity = Column(String(255), nullable=False, server_default=text("'Client'::character varying"))
-    relatedEntityId = Column(String(255), nullable=False, server_default=text("''::character varying"))
+    relatedEntity = Column(
+        String(255), nullable=False, server_default=text("'Client'::character varying")
+    )
+    relatedEntityId = Column(
+        String(255), nullable=False, server_default=text("''::character varying")
+    )
 
 
 class UserReportCategory(Base):
-    __tablename__ = 'user_report_categories'
+    __tablename__ = "user_report_categories"
 
-    id = Column(Integer, primary_key=True, server_default=text("nextval('user_report_categories_id_seq'::regclass)"))
-    parentId = Column(ForeignKey('user_report_categories.id'))
+    id = Column(
+        Integer,
+        primary_key=True,
+        server_default=text("nextval('user_report_categories_id_seq'::regclass)"),
+    )
+    parentId = Column(ForeignKey("user_report_categories.id"))
     name = Column(Text)
     createdAt = Column(DateTime(True), nullable=False, server_default=text("now()"))
     updatedAt = Column(DateTime(True), nullable=False, server_default=text("now()"))
 
-    parent = relationship('UserReportCategory', remote_side=[id])
+    parent = relationship("UserReportCategory", remote_side=[id])
 
 
 class Client(Base):
-    __tablename__ = 'clients'
+    __tablename__ = "clients"
 
-    id = Column(Integer, primary_key=True, server_default=text("nextval('clients_id_seq'::regclass)"))
-    accountId = Column(ForeignKey('accounts.id'), nullable=False, index=True)
+    id = Column(
+        Integer,
+        primary_key=True,
+        server_default=text("nextval('clients_id_seq'::regclass)"),
+    )
+    accountId = Column(ForeignKey("accounts.id"), nullable=False, index=True)
     accessToken = Column(Text)
     itemId = Column(Text)
     createdAt = Column(DateTime(True), nullable=False, server_default=text("now()"))
     updatedAt = Column(DateTime(True), nullable=False, server_default=text("now()"))
     institutionId = Column(String(255))
     origin = Column(String(255), nullable=False)
-    externalId = Column(UUID, nullable=False, unique=True, server_default=text("uuid_generate_v4()"))
+    externalId = Column(
+        UUID, nullable=False, unique=True, server_default=text("uuid_generate_v4()")
+    )
     context = Column(String(255))
     totalOfFailures = Column(SmallInteger, server_default=text("0"))
-    status = Column(String(255), index=True, server_default=text("'active'::character varying"))
+    status = Column(
+        String(255), index=True, server_default=text("'active'::character varying")
+    )
 
-    account = relationship('Account')
+    account = relationship("Account")
 
 
 class CredentialSource(Base):
-    __tablename__ = 'credentialSource'
+    __tablename__ = "credentialSource"
 
-    id = Column(Integer, primary_key=True, server_default=text("nextval('\"credentialSource_id_seq\"'::regclass)"))
+    id = Column(
+        Integer,
+        primary_key=True,
+        server_default=text("nextval('\"credentialSource_id_seq\"'::regclass)"),
+    )
     name = Column(String(255), nullable=False)
-    credentialSourceTypeId = Column(ForeignKey('credentialSourceType.id'))
+    credentialSourceTypeId = Column(ForeignKey("credentialSourceType.id"))
     imageUrl = Column(String(255), nullable=False)
     createdAt = Column(DateTime(True), nullable=False, server_default=text("now()"))
     updatedAt = Column(DateTime(True), nullable=False, server_default=text("now()"))
 
-    credentialSourceType = relationship('CredentialSourceType')
+    credentialSourceType = relationship("CredentialSourceType")
 
 
 class Customer(Base):
-    __tablename__ = 'customers'
+    __tablename__ = "customers"
 
-    id = Column(Integer, primary_key=True, server_default=text("nextval('customers_id_seq'::regclass)"))
-    accountId = Column(ForeignKey('accounts.id', ondelete='RESTRICT'), nullable=False)
+    id = Column(
+        Integer,
+        primary_key=True,
+        server_default=text("nextval('customers_id_seq'::regclass)"),
+    )
+    accountId = Column(ForeignKey("accounts.id", ondelete="RESTRICT"), nullable=False)
     externalId = Column(String(255), nullable=False)
     provider = Column(String(255), nullable=False)
     createdAt = Column(DateTime(True), nullable=False, server_default=text("now()"))
     updatedAt = Column(DateTime(True), nullable=False, server_default=text("now()"))
     churnedAt = Column(DateTime(True))
 
-    account = relationship('Account')
+    account = relationship("Account")
 
 
 class Demographic(Base):
-    __tablename__ = 'demographics'
+    __tablename__ = "demographics"
 
     id = Column(UUID, primary_key=True)
-    AccountId = Column(ForeignKey('accounts.id', ondelete='SET NULL', onupdate='CASCADE'))
+    AccountId = Column(
+        ForeignKey("accounts.id", ondelete="SET NULL", onupdate="CASCADE")
+    )
     birthday = Column(DateTime(True))
     isBlack = Column(Boolean)
     isLgbtq = Column(Boolean)
@@ -208,14 +288,20 @@ class Demographic(Base):
     isLgbtPlus = Column(Boolean)
     isMilitaryOrVeteran = Column(Boolean)
 
-    account = relationship('Account')
+    account = relationship("Account")
 
 
 class Document(Base):
-    __tablename__ = 'documents'
+    __tablename__ = "documents"
 
-    id = Column(Integer, primary_key=True, server_default=text("nextval('documents_id_seq'::regclass)"))
-    accountId = Column(ForeignKey('accounts.id', ondelete='SET NULL', onupdate='CASCADE'))
+    id = Column(
+        Integer,
+        primary_key=True,
+        server_default=text("nextval('documents_id_seq'::regclass)"),
+    )
+    accountId = Column(
+        ForeignKey("accounts.id", ondelete="SET NULL", onupdate="CASCADE")
+    )
     type = Column(String(255))
     path = Column(String(255), nullable=False)
     createdAt = Column(DateTime(True), nullable=False, server_default=text("now()"))
@@ -225,14 +311,17 @@ class Document(Base):
     origin = Column(String(255))
     mimeType = Column(String(255))
 
-    account = relationship('Account')
+    account = relationship("Account")
 
 
 class FundingPartner(Base):
-    __tablename__ = 'funding_partners'
+    __tablename__ = "funding_partners"
 
     id = Column(UUID, primary_key=True)
-    AccountId = Column(ForeignKey('accounts.id', ondelete='SET NULL', onupdate='CASCADE'), nullable=False)
+    AccountId = Column(
+        ForeignKey("accounts.id", ondelete="SET NULL", onupdate="CASCADE"),
+        nullable=False,
+    )
     name = Column(String(255))
     about = Column(Text)
     logoUrl = Column(String(255))
@@ -244,30 +333,46 @@ class FundingPartner(Base):
     createdAt = Column(DateTime(True), nullable=False)
     updatedAt = Column(DateTime(True), nullable=False)
 
-    account = relationship('Account')
+    account = relationship("Account")
 
 
 class Letter(Base):
-    __tablename__ = 'letters'
+    __tablename__ = "letters"
 
-    id = Column(Integer, primary_key=True, server_default=text("nextval('letters_id_seq'::regclass)"))
-    letterBoxId = Column(ForeignKey('letter_boxes.id'), nullable=False)
+    id = Column(
+        Integer,
+        primary_key=True,
+        server_default=text("nextval('letters_id_seq'::regclass)"),
+    )
+    letterBoxId = Column(ForeignKey("letter_boxes.id"), nullable=False)
     version = Column(String(255), nullable=False)
     type = Column(String(255), nullable=False, index=True)
     message = Column(Text)
     attachment = Column(JSONB(astext_type=Text()))
-    createdAt = Column(DateTime(True), nullable=False, server_default=text("CURRENT_TIMESTAMP"))
-    updatedAt = Column(DateTime(True), nullable=False, server_default=text("CURRENT_TIMESTAMP"))
+    createdAt = Column(
+        DateTime(True), nullable=False, server_default=text("CURRENT_TIMESTAMP")
+    )
+    updatedAt = Column(
+        DateTime(True), nullable=False, server_default=text("CURRENT_TIMESTAMP")
+    )
 
-    letter_box = relationship('LetterBox')
+    letter_box = relationship("LetterBox")
 
 
 class Location(Base):
-    __tablename__ = 'locations'
+    __tablename__ = "locations"
 
-    id = Column(Integer, primary_key=True, server_default=text("nextval('locations_id_seq'::regclass)"))
-    categoryId = Column(ForeignKey('location_categories.id', ondelete='SET NULL', onupdate='CASCADE'))
-    parentId = Column(ForeignKey('locations.id', ondelete='SET NULL', onupdate='CASCADE'))
+    id = Column(
+        Integer,
+        primary_key=True,
+        server_default=text("nextval('locations_id_seq'::regclass)"),
+    )
+    categoryId = Column(
+        ForeignKey("location_categories.id", ondelete="SET NULL", onupdate="CASCADE")
+    )
+    parentId = Column(
+        ForeignKey("locations.id", ondelete="SET NULL", onupdate="CASCADE")
+    )
     name = Column(String(255), nullable=False)
     abbreviation = Column(String(255))
     latLong = Column(ARRAY(Numeric(precision=10, scale=6)), nullable=False)
@@ -275,15 +380,19 @@ class Location(Base):
     createdAt = Column(DateTime(True), nullable=False, server_default=text("now()"))
     updatedAt = Column(DateTime(True), nullable=False, server_default=text("now()"))
 
-    location_category = relationship('LocationCategory')
-    parent = relationship('Location', remote_side=[id])
+    location_category = relationship("LocationCategory")
+    parent = relationship("Location", remote_side=[id])
 
 
 class UserReport(Base):
-    __tablename__ = 'user_reports'
+    __tablename__ = "user_reports"
 
-    id = Column(Integer, primary_key=True, server_default=text("nextval('user_reports_id_seq'::regclass)"))
-    categoryId = Column(ForeignKey('user_report_categories.id'))
+    id = Column(
+        Integer,
+        primary_key=True,
+        server_default=text("nextval('user_reports_id_seq'::regclass)"),
+    )
+    categoryId = Column(ForeignKey("user_report_categories.id"))
     rawInfoId = Column(Integer)
     version = Column(Text)
     content = Column(JSONB(astext_type=Text()), nullable=False)
@@ -294,17 +403,17 @@ class UserReport(Base):
     relatedEntityId = Column(String(255), nullable=False)
     isCacheable = Column(Boolean, index=True, server_default=text("true"))
 
-    user_report_category = relationship('UserReportCategory')
+    user_report_category = relationship("UserReportCategory")
 
 
 class Business(Base):
-    __tablename__ = 'businesses'
-    __table_args__ = (
-        Index('businesses_created_at_id', 'createdAt', 'id'),
-    )
+    __tablename__ = "businesses"
+    __table_args__ = (Index("businesses_created_at_id", "createdAt", "id"),)
 
     id = Column(UUID, primary_key=True)
-    AccountId = Column(ForeignKey('accounts.id', ondelete='CASCADE', onupdate='CASCADE'), index=True)
+    AccountId = Column(
+        ForeignKey("accounts.id", ondelete="CASCADE", onupdate="CASCADE"), index=True
+    )
     name = Column(String(255))
     city = Column(String(255))
     state = Column(String(255))
@@ -338,7 +447,9 @@ class Business(Base):
     createdAt = Column(DateTime(True), nullable=False)
     updatedAt = Column(DateTime(True), nullable=False)
     fundingJourney = Column(String(255))
-    locationId = Column(ForeignKey('locations.id', ondelete='SET NULL', onupdate='CASCADE'))
+    locationId = Column(
+        ForeignKey("locations.id", ondelete="SET NULL", onupdate="CASCADE")
+    )
     incorporationType = Column(String(255))
     industry = Column(String(255))
     type = Column(ARRAY(String(length=255)))
@@ -358,36 +469,41 @@ class Business(Base):
     lastBankruptcyDate = Column(DateTime(True))
     shareholderInfo = Column(JSONB(astext_type=Text()))
 
-    account = relationship('Account')
-    location = relationship('Location')
+    account = relationship("Account")
+    location = relationship("Location")
 
 
 t_funding_partner_benefits = Table(
-    'funding_partner_benefits', metadata,
-    Column('FundingPartnerId', ForeignKey('funding_partners.id'), nullable=False),
-    Column('value', String(255), nullable=False),
-    Column('createdAt', DateTime(True), nullable=False),
-    Column('updatedAt', DateTime(True), nullable=False),
-    Column('id', Integer, nullable=False, unique=True, server_default=text("nextval('funding_partner_benefits_id_seq'::regclass)"))
+    "funding_partner_benefits",
+    metadata,
+    Column("FundingPartnerId", ForeignKey("funding_partners.id"), nullable=False),
+    Column("value", String(255), nullable=False),
+    Column("createdAt", DateTime(True), nullable=False),
+    Column("updatedAt", DateTime(True), nullable=False),
+    Column(
+        "id",
+        Integer,
+        nullable=False,
+        unique=True,
+        server_default=text("nextval('funding_partner_benefits_id_seq'::regclass)"),
+    ),
 )
 
 
 class Offering(Base):
-    __tablename__ = 'offerings'
-    __table_args__ = (
-        Index('offerings_created_at_id', 'createdAt', 'id'),
-    )
+    __tablename__ = "offerings"
+    __table_args__ = (Index("offerings_created_at_id", "createdAt", "id"),)
 
     id = Column(UUID, primary_key=True)
     name = Column(String(255))
     category = Column(String(255))
     subcategory = Column(String(255))
     about = Column(Text)
-    FundingPartnerId = Column(ForeignKey('funding_partners.id'))
+    FundingPartnerId = Column(ForeignKey("funding_partners.id"))
     minAmount = Column(Float(53))
     maxAmount = Column(Float(53))
-    _with = Column('with', String(255))
-    _for = Column('for', String(255))
+    _with = Column("with", String(255))
+    _for = Column("for", String(255))
     interestRate = Column(String(255))
     repaymentMonths = Column(Integer)
     targetBusiness = Column(String(255))
@@ -398,97 +514,114 @@ class Offering(Base):
     locationResumeFromRequirements = Column(String(255))
     isVisible = Column(Boolean, server_default=text("true"))
 
-    funding_partner = relationship('FundingPartner')
+    funding_partner = relationship("FundingPartner")
 
 
 class Subscription(Base):
-    __tablename__ = 'subscriptions'
+    __tablename__ = "subscriptions"
 
-    id = Column(Integer, primary_key=True, server_default=text("nextval('subscriptions_id_seq'::regclass)"))
+    id = Column(
+        Integer,
+        primary_key=True,
+        server_default=text("nextval('subscriptions_id_seq'::regclass)"),
+    )
     externalId = Column(String(255), nullable=False)
-    customerId = Column(ForeignKey('customers.id'), nullable=False)
+    customerId = Column(ForeignKey("customers.id"), nullable=False)
     items = Column(JSONB(astext_type=Text()), nullable=False)
     price = Column(JSONB(astext_type=Text()), nullable=False)
     status = Column(String(255))
     createdAt = Column(DateTime(True), nullable=False, server_default=text("now()"))
     updatedAt = Column(DateTime(True), nullable=False, server_default=text("now()"))
 
-    customer = relationship('Customer')
+    customer = relationship("Customer")
 
 
 class BusinessSavedOffering(Base):
-    __tablename__ = 'business_saved_offerings'
+    __tablename__ = "business_saved_offerings"
 
     id = Column(UUID, primary_key=True)
-    OfferingId = Column(ForeignKey('offerings.id'))
-    BusinessId = Column(ForeignKey('businesses.id'))
+    OfferingId = Column(ForeignKey("offerings.id"))
+    BusinessId = Column(ForeignKey("businesses.id"))
     createdAt = Column(DateTime(True), nullable=False)
     updatedAt = Column(DateTime(True), nullable=False)
 
-    business = relationship('Business')
-    offering = relationship('Offering')
+    business = relationship("Business")
+    offering = relationship("Offering")
 
 
 class Credential(Base):
-    __tablename__ = 'credential'
+    __tablename__ = "credential"
 
     id = Column(UUID, primary_key=True)
-    businessId = Column(ForeignKey('businesses.id'))
-    credentialSourceId = Column(ForeignKey('credentialSource.id'))
+    businessId = Column(ForeignKey("businesses.id"))
+    credentialSourceId = Column(ForeignKey("credentialSource.id"))
     description = Column(String(255), nullable=False)
     createdAt = Column(DateTime(True), nullable=False, server_default=text("now()"))
     updatedAt = Column(DateTime(True), nullable=False, server_default=text("now()"))
 
-    business = relationship('Business')
-    credentialSource = relationship('CredentialSource')
+    business = relationship("Business")
+    credentialSource = relationship("CredentialSource")
 
 
 class FundingPartnerSavedBusiness(Base):
-    __tablename__ = 'funding_partner_saved_businesses'
+    __tablename__ = "funding_partner_saved_businesses"
 
     id = Column(UUID, primary_key=True)
-    FundingPartnerId = Column(ForeignKey('funding_partners.id'))
-    BusinessId = Column(ForeignKey('businesses.id'))
+    FundingPartnerId = Column(ForeignKey("funding_partners.id"))
+    BusinessId = Column(ForeignKey("businesses.id"))
     createdAt = Column(DateTime(True), nullable=False)
     updatedAt = Column(DateTime(True), nullable=False)
 
-    business = relationship('Business')
-    funding_partner = relationship('FundingPartner')
+    business = relationship("Business")
+    funding_partner = relationship("FundingPartner")
 
 
 class IdealMatch(Base):
-    __tablename__ = 'ideal_matches'
+    __tablename__ = "ideal_matches"
 
-    businessId = Column(ForeignKey('businesses.id', ondelete='CASCADE', onupdate='CASCADE'), primary_key=True, nullable=False, index=True)
-    offeringId = Column(ForeignKey('offerings.id', ondelete='CASCADE', onupdate='CASCADE'), primary_key=True, nullable=False)
+    businessId = Column(
+        ForeignKey("businesses.id", ondelete="CASCADE", onupdate="CASCADE"),
+        primary_key=True,
+        nullable=False,
+        index=True,
+    )
+    offeringId = Column(
+        ForeignKey("offerings.id", ondelete="CASCADE", onupdate="CASCADE"),
+        primary_key=True,
+        nullable=False,
+    )
     score = Column(Integer, nullable=False)
     details = Column(JSONB(astext_type=Text()))
     createdAt = Column(DateTime(True), nullable=False, server_default=text("now()"))
     updatedAt = Column(DateTime(True), nullable=False, server_default=text("now()"))
     potentialScore = Column(Integer)
 
-    business = relationship('Business')
-    offering = relationship('Offering')
+    business = relationship("Business")
+    offering = relationship("Offering")
 
 
 class OfferingDetail(Base):
-    __tablename__ = 'offering_details'
+    __tablename__ = "offering_details"
 
-    id = Column(Integer, primary_key=True, server_default=text("nextval('offering_details_id_seq'::regclass)"))
+    id = Column(
+        Integer,
+        primary_key=True,
+        server_default=text("nextval('offering_details_id_seq'::regclass)"),
+    )
     name = Column(String(255), nullable=False)
     value = Column(String(255), nullable=False)
-    offeringId = Column(ForeignKey('offerings.id'), nullable=False)
+    offeringId = Column(ForeignKey("offerings.id"), nullable=False)
     createdAt = Column(DateTime(True), nullable=False, server_default=text("now()"))
     updatedAt = Column(DateTime(True), nullable=False)
 
-    offering = relationship('Offering')
+    offering = relationship("Offering")
 
 
 class Program(Base):
-    __tablename__ = 'programs'
+    __tablename__ = "programs"
 
     id = Column(UUID, primary_key=True)
-    OfferingId = Column(ForeignKey('offerings.id'))
+    OfferingId = Column(ForeignKey("offerings.id"))
     programType = Column(String(255))
     startDate = Column(String(255))
     endDate = Column(String(255))
@@ -496,17 +629,21 @@ class Program(Base):
     createdAt = Column(DateTime(True), nullable=False)
     updatedAt = Column(DateTime(True), nullable=False)
 
-    offering = relationship('Offering')
+    offering = relationship("Offering")
 
 
 class Requirement(Base):
-    __tablename__ = 'requirements'
+    __tablename__ = "requirements"
 
     id = Column(UUID, primary_key=True)
-    OfferingId = Column(ForeignKey('offerings.id'))
+    OfferingId = Column(ForeignKey("offerings.id"))
     isStrict = Column(Boolean)
     name = Column(String(255))
-    value = Column(ARRAY(String(length=255)), nullable=False, server_default=text("(ARRAY[]::character varying[])::character varying(255)[]"))
+    value = Column(
+        ARRAY(String(length=255)),
+        nullable=False,
+        server_default=text("(ARRAY[]::character varying[])::character varying(255)[]"),
+    )
     createdAt = Column(DateTime(True), nullable=False)
     updatedAt = Column(DateTime(True), nullable=False)
     rawValue = Column(ARRAY(String(length=255)))
@@ -515,16 +652,24 @@ class Requirement(Base):
     operator = Column(String(255))
     isOptional = Column(Boolean, nullable=False, server_default=text("false"))
 
-    offering = relationship('Offering')
+    offering = relationship("Offering")
 
 
 class LocalizableRequirement(Base):
-    __tablename__ = 'localizable_requirements'
+    __tablename__ = "localizable_requirements"
 
-    requirementId = Column(ForeignKey('requirements.id', ondelete='CASCADE', onupdate='CASCADE'), primary_key=True, nullable=False)
-    locationId = Column(ForeignKey('locations.id', ondelete='CASCADE', onupdate='CASCADE'), primary_key=True, nullable=False)
+    requirementId = Column(
+        ForeignKey("requirements.id", ondelete="CASCADE", onupdate="CASCADE"),
+        primary_key=True,
+        nullable=False,
+    )
+    locationId = Column(
+        ForeignKey("locations.id", ondelete="CASCADE", onupdate="CASCADE"),
+        primary_key=True,
+        nullable=False,
+    )
     createdAt = Column(DateTime(True), nullable=False, server_default=text("now()"))
     updatedAt = Column(DateTime(True), nullable=False, server_default=text("now()"))
 
-    location = relationship('Location')
-    requirement = relationship('Requirement')
+    location = relationship("Location")
+    requirement = relationship("Requirement")
