@@ -30,6 +30,13 @@ services:
       db:
         condition: service_healthy
 
+  generator:
+    build:
+      context: model-generator
+    tty: true
+    volumes:
+      - ./src/entities:/models/generated
+
 configs:
   pgpasss:
     content: db:${POSTGRES_PORT}:*:${POSTGRES_USER}:${POSTGRES_PASSWORD}
