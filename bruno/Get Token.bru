@@ -1,0 +1,26 @@
+meta {
+  name: Get Token
+  type: http
+  seq: 3
+}
+
+post {
+  url: https://dev-xrcls139.us.auth0.com/oauth/token
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "username": "test@test22.com",
+      "password": "test1234!",
+      "client_id": "k0yfgjxJEhIHqQM25pc4xOQVVcDO86Rk",
+      "client_secret" : "7shpPArxLJ7IdLNE1Y5eHA-yFwfsNjyWRBONF7vrrfdRuU5u-qtP9-ktEjYZ2QAb",
+      "grant_type": "password",
+      "scope" : "openid profile email"
+  }
+}
+
+script:post-response {
+  bru.setEnvVar("TOKEN",res.body.id_token)
+}

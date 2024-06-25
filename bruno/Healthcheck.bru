@@ -1,0 +1,15 @@
+meta {
+  name: Healthcheck
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{API_URL}}/healthcheck
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+}

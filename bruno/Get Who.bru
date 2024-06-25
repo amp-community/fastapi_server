@@ -1,0 +1,15 @@
+meta {
+  name: Get Who
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{API_URL}}/who
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{TOKEN}}
+}
