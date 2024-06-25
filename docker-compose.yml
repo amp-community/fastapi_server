@@ -1,0 +1,47 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:14.1-alpine
+    restart: always
+    env_file:
+      - .env
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}" ]
+      interval: 1s
+    volumes:
+      - ./backup:/docker-entrypoint-initdb.d
+  
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - ${PGADMIN_PORT}:80
+    user: root
+    entrypoint: /bin/sh -c "chmod 600 /pgpass; /entrypoint.sh;"
+    configs:
+      - source: serversjson
+        target: /pgadmin4/servers.json
+      - source: pgpasss
+        target: /pgpass
+    depends_on:
+      db:
+        condition: service_healthy
+
+configs:
+  pgpasss:
+    content: db:${POSTGRES_PORT}:*:${POSTGRES_USER}:${POSTGRES_PASSWORD}
+  serversjson:
+    content: |
+      {"Servers": {"1": {
+        "Group": "Servers",
+        "Name": "My Local Postgres 16.1",
+        "Host": "db",
+        "Port": ${POSTGRES_PORT},
+        "MaintenanceDB": "postgres",
+        "Username": "${POSTGRES_USER}",
+        "PassFile": "/pgpass",
+        "SSLMode": "prefer"
+      }}}
