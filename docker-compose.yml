@@ -37,6 +37,20 @@ services:
     volumes:
       - ./src/entities:/models/generated
 
+  api:
+    build:
+      context: .
+    environment:
+      - POSTGRES_URL=${POSTGRES_URL}
+      - AUTH0_URL=${AUTH0_URL}
+    ports:
+      - ${API_SERVER_PORT}:8000
+    volumes:
+      - ./src:/code/src
+    depends_on:
+      db:
+        condition: service_healthy
+
 configs:
   pgpasss:
     content: db:${POSTGRES_PORT}:*:${POSTGRES_USER}:${POSTGRES_PASSWORD}
