@@ -5,7 +5,7 @@ make build up
 ```
 This command will:
 - build all the containers
-- mount the backud to postgresql
+- mount the backup to postgresql
 - start the api service with hot reload over ./src changes over http://localhost:8000
 - start a pgadmin service running on http://localhost:8080/ with database connection already stored as known server
 - setup a reverse engineer focused container to auto generate the SqlAlchemy Class Models
