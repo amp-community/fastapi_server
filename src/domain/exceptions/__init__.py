@@ -1,2 +1,2 @@
-from .NonAuthorize import NonAuthorize
+from .Unauthorized import Unauthorized
 from .HttpException import HttpException

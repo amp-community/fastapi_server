@@ -23,7 +23,7 @@ build:
 ## [ down ]: Tears down all the containers, delete database volume
 down:
 	@docker compose down -v
-## [ generate-models ]: Generates models from the database backup with reverse engineering. It requires the POSTGRES_URL variable to be set in the .env file and container to be up
+## [ generate-models ]: Generates models from the database backup with reverse engineering. It requires container to be up
 generate-models:
 	@docker compose exec generator bash -c "sqlacodegen ${POSTGRES_URL}  --outfile ./generated/database_models.py"
 ## [ format ]: Formats the code with black
